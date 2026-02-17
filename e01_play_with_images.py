@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 # Se lee la imagen
-img = cv.imread("baboon.png")
+img = cv.imread("img/baboon.png")
 
 # Se muestra la imagen
 cv.imshow("Baboon", img)

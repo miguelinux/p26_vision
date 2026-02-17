@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 # Se lee la imagen
-img = cv.imread("tigre_2.jpg")
+img = cv.imread("img/tigre_2.jpg")
 
 # Obtenemos su forma
 fil, col, ch = img.shape
