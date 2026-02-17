@@ -1,3 +1,9 @@
+# Kodac image collection repo
+# https://github.com/lemire/kodakimagecollection
+kodakimagecollection/
+kodakcollection/
+kodak/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
