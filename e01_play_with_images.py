@@ -17,6 +17,7 @@ img_B, img_G, img_R = cv.split(img)
 cv.imshow("Baboon Red (Grayscale)", img_R)
 
 g_img = np.zeros(shape=(fil,col,ch), dtype='uint8')
+# Copiamos un canal. 0=Blue, 1=Green, 2=Red
 g_img[:,:,2] = img_R
 
 cv.imshow("Baboon Red", g_img)
