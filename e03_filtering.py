@@ -8,6 +8,7 @@ img = cv.imread("img/tigre_2.jpg")
 # Obtenemos su forma
 fil, col, ch = img.shape
 
+# Blurring
 #kernel = (1/9) * np.array([[ 1.,  1., 1.],
 #                           [ 1.,  1., 1.],
 #                           [ 1.,  1., 1.]])
@@ -16,6 +17,7 @@ fil, col, ch = img.shape
 #          [ 1., -4., 1.],
 #          [ 0.,  1., 0.]]
 
+# Sharpening
 #kernel = [[ 0., -1., 0.],
 #          [-1.,  5.,-1.],
 #          [ 0., -1., 0.]]
