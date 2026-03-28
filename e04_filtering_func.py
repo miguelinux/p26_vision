@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+import cv2 as cv
+import numpy as np
+
+def convolution_fnc(img, kernel):
+
+    # input size
+    img_rows, img_cols = img.shape
+
+    kernel = np.flip(kernel, axis = 0)
+    kernel = np.flip(kernel, axis = 1)
+
+    # kernel size
+    rows_kernel, cols_kernel = kernel.shape
+
+    # obtener la salida
+    out_cols = int(img_cols - cols_kernel + 1)
+    out_rows = int(img_rows - rows_kernel + 1)
+
+    # output img
+    img_output =   np.zeros([out_rows, out_cols]).astype("float")
+    img = img.astype("float")
+
+    # index calulation
+    index_rows = np.linspace(0, img_rows - rows_kernel, img_output.shape[0]).astype("int")
+    index_cols = np.linspace(0, img_cols - cols_kernel, img_output.shape[1]).astype("int")
+
+    for rows in range(out_rows):
+        for cols in range(out_cols):
+            img_output[rows, cols] = np.sum(
+                np.sum(
+                    kernel * img[index_rows[rows]:index_rows[rows] + kernel.shape[0],
+                    index_cols[cols]:index_cols[cols] + kernel.shape[1]]
+                )
+            )
+
+    return img_output.astype("uint8")
+
+
+# Se lee la imagen
+img = cv.imread("img/persona.jpg")
+img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+img_float = img_gray.astype('float')
+
+# Obtenemos su forma
+fil, col, ch = img.shape
+
+# Blurring
+#kernel = (1/9) * np.array([[ 1.,  1., 1.],
+#                           [ 1.,  1., 1.],
+#                           [ 1.,  1., 1.]])
+
+#kernel = [[ 0.,  1., 0.],
+#          [ 1., -4., 1.],
+#          [ 0.,  1., 0.]]
+
+# Sharpening
+#kernel = [[ 0., -1., 0.],
+#          [-1.,  5.,-1.],
+#          [ 0., -1., 0.]]
+
+kernel = [[ 0.,  0., 0.],
+          [ 0.,  1., 0.],
+          [ 0.,  0., 0.]]
+
+#img_gray = 0.2989 * img_R + 0.5870 * img_G + 0.1140 * img_B
+#img_gray = img_gray.astype('uint8')
+img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+img_float = img_gray.astype('float')
+img_filtrada = np.zeros(shape=(fil,col), dtype='float')
+
+for m in range(1,fil-1):
+    for n in range(1,col-1):
+        aux = 0.0
+        for k in range(3):
+            for l in range(3):
+                aux += kernel[k][l] * img_float[m+k-1][n+l-1]
+        img_filtrada[m][n] = aux
+
+img_filtrada = img_filtrada.astype('uint8')
+
+cv.imshow("Original", img_gray)
+cv.imshow("Filtrada", img_filtrada)
+
+while True:
+    # Leemos del teclado
+    key = cv.waitKey(1000)
+    # Verificamos si la ventana es visible
+    win =  cv.getWindowProperty('Original', cv.WND_PROP_VISIBLE)
+
+    # si se preciona la tecla ESC
+    if key == 27 or key == ord("q") or win < 1.0:
+        break
+
+cv.destroyAllWindows()
+
