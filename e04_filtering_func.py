@@ -37,51 +37,29 @@ def convolution_fnc(img, kernel):
     return img_output.astype("uint8")
 
 
-# Se lee la imagen
-img = cv.imread("img/persona.jpg")
+img = cv.imread("img/davis_hall.jpeg")
 img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-img_float = img_gray.astype('float')
+sobel_x = np.array([[ -1., 0., 1.],
+                    [ -2., 0., 2.],
+                    [ -1., 0., 1.]])
 
-# Obtenemos su forma
-fil, col, ch = img.shape
+sobel_y = sobel_x.T
 
-# Blurring
-#kernel = (1/9) * np.array([[ 1.,  1., 1.],
-#                           [ 1.,  1., 1.],
-#                           [ 1.,  1., 1.]])
+img_x = convolution_fnc(img_gray, sobel_x).astype("float")
+img_y = convolution_fnc(img_gray, sobel_y).astype("float")
 
-#kernel = [[ 0.,  1., 0.],
-#          [ 1., -4., 1.],
-#          [ 0.,  1., 0.]]
+gradient = np.sqrt(img_x * img_x + img_y * img_y)
 
-# Sharpening
-#kernel = [[ 0., -1., 0.],
-#          [-1.,  5.,-1.],
-#          [ 0., -1., 0.]]
+img_edges = np.zeros(gradient.shape).astype("uint8")
 
-kernel = [[ 0.,  0., 0.],
-          [ 0.,  1., 0.],
-          [ 0.,  0., 0.]]
+img_edges[gradient > 200] = 255
 
-#img_gray = 0.2989 * img_R + 0.5870 * img_G + 0.1140 * img_B
-#img_gray = img_gray.astype('uint8')
-img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-img_float = img_gray.astype('float')
-img_filtrada = np.zeros(shape=(fil,col), dtype='float')
-
-for m in range(1,fil-1):
-    for n in range(1,col-1):
-        aux = 0.0
-        for k in range(3):
-            for l in range(3):
-                aux += kernel[k][l] * img_float[m+k-1][n+l-1]
-        img_filtrada[m][n] = aux
-
-img_filtrada = img_filtrada.astype('uint8')
+img_gradient = gradient.astype("uint8")
 
 cv.imshow("Original", img_gray)
-cv.imshow("Filtrada", img_filtrada)
+cv.imshow("Gradient", img_gradient)
+cv.imshow("Edges", img_edges)
 
 while True:
     # Leemos del teclado
