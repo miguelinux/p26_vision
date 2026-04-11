@@ -2,7 +2,8 @@
 import cv2 as cv
 import numpy as np
 
-img = cv.imread("img/monedas.jpg")
+#img = cv.imread("img/monedas.jpg")
+img = cv.imread("img/coins_mexico.jpg")
 img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
 threshold = 130
