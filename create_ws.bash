@@ -20,3 +20,21 @@ ros2 pkg create \
     --license Apache-2.0 \
     ros2_opencv \
     --dependencies sensor_msgs std_msgs rclpy image_transport cv_bridge python3-opencv
+
+
+# cd ${DEST_DIR}/ws_ros2_camara
+#
+# rosdep install -i --from-path src/ --rosdistro $ROS_DISTRO
+# 
+# sudo rosdep init
+# rosdep update
+# 
+# colcon build
+# 
+###################################
+#
+## source /opt/ros/jazzy/setup.bash
+## source ${DEST_DIR}/ws_ros2_camara/install/setup.bash
+# ros2 run ros2_opencv publisher_node
+# ros2 run ros2_opencv subscriber_node
+# rqt_graph
